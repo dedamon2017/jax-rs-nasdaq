@@ -11,7 +11,6 @@ import org.jsoup.nodes.Element;
 public class SecurityService {
 	private static final String URL_FORMAT = "http://www.nasdaq.com/symbol/%s/real-time";
 	private static final String userAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36";
-	private Document nasdaqDocument;
 
 	protected Document getDocument(String searchString) throws IOException {
 		String url = String.format(URL_FORMAT, searchString);
@@ -21,7 +20,7 @@ public class SecurityService {
 	public String getPrice(String ticker) {
 		String price = "";
 		try {
-			nasdaqDocument = getDocument(ticker);
+			Document nasdaqDocument = getDocument(ticker);
 			Element element = nasdaqDocument.getElementsByClass("qwidget-dollar").first();
 			price = element.text();
 		} catch (Exception e) {
