@@ -24,18 +24,15 @@ public class InfoReflect {
 	static public class Command {
 		private Object receiver;
 		private Method action;
-		private Object[] args;
+		private String arg;
 
-		public Command(Object object, String methodName, Object[] arguments) {
+		public Command(Object object, String methodName, String argument) {
 			receiver = object;
-			args = arguments;
+			arg = argument;
 			Class<? extends Object> cls = object.getClass();
-			
-			Class[] argTypes = new Class[args.length];
-			for (int i = 0; i < args.length; i++)
-				argTypes[i] = args[i].getClass();
+			Class<? extends Object> argType = arg.getClass(); 
 			try {
-				action = cls.getMethod(methodName, argTypes);
+				action = cls.getMethod(methodName, argType);
 			} catch (NoSuchMethodException exception) {
 				throw new AppException(exception.getMessage());
 			}
@@ -43,7 +40,7 @@ public class InfoReflect {
 
 		public Object execute() {
 			try {
-				return action.invoke(receiver, args);
+				return action.invoke(receiver, arg);
 			} catch (IllegalAccessException exception) {
 				throw new AppException(exception.getMessage());
 			} catch (InvocationTargetException exception) {

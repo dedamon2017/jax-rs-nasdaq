@@ -2,7 +2,6 @@ package sharipov.security;
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 
@@ -20,7 +19,6 @@ public class SecurityService {
 	private Document document;
 	private Element element;
 	private Security security;
-	
 
 	protected Document getDocument(String searchString) throws IOException {
 		String url = String.format(URL_FORMAT, searchString);
@@ -28,8 +26,7 @@ public class SecurityService {
 	}
 
 	public String getInfo(String elementName, String methodName) {
-		element = (Element) new InfoReflect.Command(new InfoReflect(document), methodName, new String[] { elementName })
-				.execute();
+		element = (Element) new InfoReflect.Command(new InfoReflect(document), methodName, elementName).execute();
 		return Objects.requireNonNull(element.text());
 	}
 
