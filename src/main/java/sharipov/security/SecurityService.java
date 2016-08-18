@@ -16,6 +16,9 @@ public class SecurityService {
 	private static final String PRICE_CLASS = "qwidget-dollar";
 	private static final String COMPANY_ID = "qwidget_pageheader";
 	private static final String DATE_ID = "qwidget_markettime";
+	private static final String GET_ELEMENT_BY_ID = "getElementById";
+	private static final String GET_ELEMENT_BY_CLASS = "getElementByClass";
+	
 	private Document document;
 	private Element element;
 	private Security security;
@@ -26,7 +29,7 @@ public class SecurityService {
 	}
 
 	public String getInfo(String elementName, String methodName) {
-		element = (Element) new InfoReflect.Command(new InfoReflect(document), methodName, elementName).execute();
+		element = (Element) new InfoReflect.Command(new InfoReflect(document), methodName, new String[]{elementName}).execute();
 		return Objects.requireNonNull(element.text());
 	}
 
@@ -37,9 +40,9 @@ public class SecurityService {
 			throw new AppException("Could not parse documnet.");
 		}
 		security = new Security();
-		security.setCompany(getInfo(COMPANY_ID, "getElementById"));
-		security.setPrice(getInfo(PRICE_CLASS, "getElementsByClass"));
-		security.setDate(getInfo(DATE_ID, "getElementById"));
+		security.setCompany(getInfo(COMPANY_ID, GET_ELEMENT_BY_ID));
+		security.setPrice(getInfo(PRICE_CLASS, GET_ELEMENT_BY_CLASS));
+		security.setDate(getInfo(DATE_ID, GET_ELEMENT_BY_ID));
 		security.setTicker(ticker);
 		return security;
 	}
